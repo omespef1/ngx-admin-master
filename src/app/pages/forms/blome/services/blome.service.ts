@@ -14,7 +14,7 @@ const httpOptions = {
 
 
 export class BlomeService {
-  apiUrl:string="";
+  apiUrl:string="http://localhost/RCnBlome/api/CnBlome";
 
   constructor(private http:HttpClient) { }
 
@@ -23,8 +23,8 @@ export class BlomeService {
 //  }
 
 
- getBlome (): Observable<Gn_blome[]> {
-  return this.http.get<Gn_blome[]>(this.apiUrl)
+ getBlome (myBlome:Gn_blome): Observable<Gn_blome[]> {
+  return this.http.get<Gn_blome[]>(`${this.apiUrl}?Blo_Anop=${myBlome.Blo_Anop}&Blo_Mesp=${myBlome.Blo_Mesp}&Emp_Codi=${myBlome.Emp_Codi}&Blo_Acti=${myBlome.Blo_Acti}`)
     .pipe(    
       tap(data => console.log('fetched products')),
       catchError(this.handleError('getProducts', []))

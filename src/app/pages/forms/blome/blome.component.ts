@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 //models
-import {Gn_blome}  from './models/models';
+import { Gn_blome } from './models/models';
 //components
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
 //services
-import {BlomeService} from './services/blome.service';
+import { BlomeService } from './services/blome.service';
 
 @Component({
   selector: 'ngx-blome',
@@ -15,10 +15,11 @@ import {BlomeService} from './services/blome.service';
 
 export class BlomeComponent implements OnInit {
 
- months:any[];
- myBlome:Gn_blome= new Gn_blome();
- mySource:Gn_blome[];
-  constructor(private service:BlomeService) {
+  months: any[];
+  states: any[];
+  myBlome: Gn_blome = new Gn_blome();
+  mySource: Gn_blome[];
+  constructor(private service: BlomeService) {
 
     this.months = [
       { name: 'Enero', value: 1, },
@@ -31,9 +32,18 @@ export class BlomeComponent implements OnInit {
       { name: 'Agosto', value: 8 },
       { name: 'Septimebre', value: 9 },
       { name: 'Noviembre', value: 10 },
-      { name: 'Diciembre', value: 11 },     
+      { name: 'Diciembre', value: 11 },
     ];
+    this.states = [{
+      title: 'Activo',
+      value: 'S'
+    },
+    {
+      title: 'Inactivo',
+      value: 'N'
+    }]
   }
+
   source: LocalDataSource = new LocalDataSource();
   settings = {
     add: {
@@ -50,7 +60,7 @@ export class BlomeComponent implements OnInit {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
-    columns: {      
+    columns: {
       Blo_anop: {
         title: 'Año',
         type: 'string',
@@ -59,11 +69,15 @@ export class BlomeComponent implements OnInit {
         title: 'Mes',
         type: 'string',
       },
-     Blo_Acti : {
+      Blo_Acti: {
         title: 'Estado',
         type: 'string',
       }
     },
+    actions: {
+      columnTitle: 'Acciones'
+    },
+    noDataMessage: 'No hay datos'
   };
 
   ngOnInit() {
@@ -71,17 +85,17 @@ export class BlomeComponent implements OnInit {
   }
 
 
-  GetGnBlome(){
-
-       this.service.getBlome().subscribe((data:any)=>{
-         this.source = data;
-       })
+  GetGnBlome() {
+    console.log(this.months);
+    this.service.getBlome(this.myBlome).subscribe((data: any) => {
+      this.source = data;
+    })
   }
-  updateBlome(){
-        this.service.updateBlome(this.myBlome);
+  updateBlome() {
+    this.service.updateBlome(this.myBlome);
   }
 
-  PostGnBlome(){
+  PostGnBlome() {
     this.service.setBlome(this.myBlome);
   }
   onDeleteConfirm(event): void {

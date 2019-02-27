@@ -5,13 +5,13 @@
       <nb-card-body>
         <form class="form-inline">
             <div class="input-group">
-            <input type="number" nbInput  status="info" placeholder="Seleccione año" [(ngModel)]="myBlome.Blo_Anop">
+            <input type="number" nbInput  status="info" placeholder="Seleccione año" name="Blo_Anop" [(ngModel)]="myBlome.Blo_Anop">
             </div>
           <nb-select  size="medium" placeholder="Seleccione mes">
-            <nb-option  *ngFor="let month of months" [value]="month.value" [(ngModel)]="myBlome.Blo_Mesp" >{{month.name}}</nb-option>            
+            <nb-option  *ngFor="let month of months" [value]="month.value" name="Blo_Mesp" [(ngModel)]="myBlome.Blo_Mesp" >{{month.name}}</nb-option>            
           </nb-select>  
           <nb-select  size="medium" placeholder="Seleccione estado">
-              <nb-option  *ngFor="let estate of states" [value]="state.value" [(ngModel)]="myBlome.Blo_Acti" >{{month.name}}</nb-option>            
+              <nb-option  *ngFor="let state of states" [value]="state.value" name ="Blo_Acti" [(ngModel)]="myBlome.Blo_Acti" >{{state.title}}</nb-option>            
             </nb-select>                             
           <button type="submit" class="btn btn-danger" (click)="GetGnBlome()">Consultar</button>  
           <button type="submit" class="btn btn-danger">Guardar/Actualizar</button>      
