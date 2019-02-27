@@ -6,6 +6,7 @@ import { SmartTableData } from '../../../@core/data/smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
 //services
 import { BlomeService } from './services/blome.service';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-blome',
@@ -19,9 +20,10 @@ export class BlomeComponent implements OnInit {
   states: any[];
   myBlome: Gn_blome = new Gn_blome();
   mySource: Gn_blome[];
-  constructor(private service: BlomeService) {
+  constructor(private service: BlomeService,private toastrService: NbToastrService) {
 
     this.months = [
+      { name: 'Seleccione Mes', value: 0, },
       { name: 'Enero', value: 1, },
       { name: 'Febrero', value: 2 },
       { name: 'Marzo', value: 3 },
@@ -34,7 +36,8 @@ export class BlomeComponent implements OnInit {
       { name: 'Noviembre', value: 10 },
       { name: 'Diciembre', value: 11 },
     ];
-    this.states = [{
+    this.states = [      
+      {
       title: 'Activo',
       value: 'S'
     },
@@ -50,18 +53,20 @@ export class BlomeComponent implements OnInit {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true 
     },
     edit: {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true 
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
     columns: {
-      Blo_anop: {
+      Blo_Anop: {
         title: 'Año',
         type: 'string',
       },
@@ -88,22 +93,76 @@ export class BlomeComponent implements OnInit {
   GetGnBlome() {
     console.log(this.months);
     this.service.getBlome(this.myBlome).subscribe((data: any) => {
-      this.source = data;
+      console.log(data);
+      this.source = data.ObjTransaction;
     })
   }
   updateBlome() {
-    this.service.updateBlome(this.myBlome);
+    this.service.updateBlome(this.myBlome).subscribe(data=> console.log(data));
+  }
+  deleteBlome(myBlome:Gn_blome){
+    
   }
 
   PostGnBlome() {
     this.service.setBlome(this.myBlome);
   }
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+    console.log(event);
+    if (window.confirm('Está seguro de eliminar el registro?')) {
+console.log("entra");
+      this.service.deleteBlome(event.data).subscribe((data:any)=>{
+        console.log("respuesta");
+        if(data.Retorno==0){
+          this.showToast(false,"Registro eliminado correctamente");
+          event.confirm.resolve();
+        }
+        else {
+          this.showToast(false,data.TxtError);
+          event.confirm.reject();
+        }
+      });
+     
+     
     } else {
-      event.confirm.reject();
+     
     }
+  }
+
+  onCreateConfirm(event){
+    console.log("create");
+    this.service.setBlome(event.data).subscribe((data:any)=>{
+      if(data.Retorno==0){
+        this.showToast(false,"Registro añadido correctamente");
+        event.confirm.resolve();
+      }
+      else {
+        this.showToast(false,data.TxtError);
+        event.confirm.reject();
+      }
+    });
+  }
+  onEditConfirm(event){
+    this.service.updateBlome(event.data).subscribe((data:any)=>{
+      if(data.Retorno==0){
+        this.showToast(false,"Registro actualizado correctamente");
+        event.confirm.resolve();
+      }
+      else {
+        this.showToast(false,data.TxtError);
+        event.confirm.reject();
+      }
+    });
+    
+  }
+  editConfirm(event){
+    console.log("editar");
+  }
+  showToast(destroyByClick,message:string) {
+    this.toastrService.show(
+      message,
+      `Mensaje de sistema`,
+      { destroyByClick });
   }
 
 }

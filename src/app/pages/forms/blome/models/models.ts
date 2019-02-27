@@ -2,7 +2,8 @@
 export class Gn_blome {
     constructor(){
      this.Emp_Codi =102;
-     this.Blo_Acti='S'
+     this.Blo_Acti='S';
+     this.Blo_Mesp=0;
     }
     Emp_Codi:number;
     Blo_Anop:number;

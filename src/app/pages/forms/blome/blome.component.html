@@ -7,14 +7,13 @@
             <div class="input-group">
             <input type="number" nbInput  status="info" placeholder="Seleccione año" name="Blo_Anop" [(ngModel)]="myBlome.Blo_Anop">
             </div>
-          <nb-select  size="medium" placeholder="Seleccione mes">
-            <nb-option  *ngFor="let month of months" [value]="month.value" name="Blo_Mesp" [(ngModel)]="myBlome.Blo_Mesp" >{{month.name}}</nb-option>            
+          <nb-select value="0"  size="medium" placeholder="Seleccione mes" name="Blo_Mesp" [(ngModel)]="myBlome.Blo_Mesp">
+            <nb-option [value]="month.value"  *ngFor="let month of months"   >{{month.name}}</nb-option>            
           </nb-select>  
-          <nb-select  size="medium" placeholder="Seleccione estado">
-              <nb-option  *ngFor="let state of states" [value]="state.value" name ="Blo_Acti" [(ngModel)]="myBlome.Blo_Acti" >{{state.title}}</nb-option>            
+          <nb-select value=""  name ="Blo_Acti" size="medium" placeholder="Seleccione estado" [(ngModel)]="myBlome.Blo_Acti">
+              <nb-option [value]="state.value"  *ngFor="let state of states"    >{{state.title}}</nb-option>            
             </nb-select>                             
-          <button type="submit" class="btn btn-danger" (click)="GetGnBlome()">Consultar</button>  
-          <button type="submit" class="btn btn-danger">Guardar/Actualizar</button>      
+          <button type="submit" class="btn btn-danger" (click)="GetGnBlome()">Consultar</button>            
         </form>
       </nb-card-body>
     </nb-card>
@@ -23,10 +22,9 @@
           Registros disponibles
         </nb-card-header>      
         <nb-card-body>
-          <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+          <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (create) ="onCreateConfirm($event)" (edit)="editConfirm($event)" (editConfirm)="onEditConfirm($event)">
          </ng2-smart-table>
         </nb-card-body>
-      </nb-card>
-      
+      </nb-card>         
   </div>
 </div>

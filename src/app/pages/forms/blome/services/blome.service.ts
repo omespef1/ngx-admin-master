@@ -37,8 +37,17 @@ setBlome (myBlome): Observable<Gn_blome> {
   );
 }
 
+deleteBlome (myBlome): Observable<Gn_blome> {
+  console.log("borrando...");
+  return this.http.post<Gn_blome>(`${this.apiUrl}/delete`, myBlome, httpOptions).pipe(
+    tap((myBlome: Gn_blome) => console.log(`added product w/ id=${myBlome.Blo_Acti}`)),
+    catchError(this.handleError<Gn_blome>('addProduct'))
+  );
+}
+
+
 updateBlome (myBlome:Gn_blome): Observable<Gn_blome> {
-  return this.http.put(this.apiUrl, myBlome, httpOptions).pipe(
+  return this.http.post(`${this.apiUrl}/update`, myBlome, httpOptions).pipe(
     tap(_ => console.log(`updated product id=${myBlome.Blo_Mesp}`)),
     catchError(this.handleError<any>('updateProduct'))
   );
