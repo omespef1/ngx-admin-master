@@ -1,7 +1,7 @@
 //Modelos para gn blome
 export class Gn_blome {
     constructor(){
-     this.Emp_Codi =102;
+     this.Emp_Codi =1;
      this.Blo_Acti='S';
      this.Blo_Mesp=0;
     }

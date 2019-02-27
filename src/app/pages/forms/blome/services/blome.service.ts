@@ -14,7 +14,7 @@ const httpOptions = {
 
 
 export class BlomeService {
-  apiUrl:string="http://localhost/RCnBlome/api/CnBlome";
+  apiUrl:string="http://186.154.240.181/seven/sevenweb/api/CnBlome";
 
   constructor(private http:HttpClient) { }
 
