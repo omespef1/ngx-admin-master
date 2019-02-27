@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Manejo bloqueo de meses</nb-card-header>
+      <nb-card-body>
+        <form class="form-inline">
+            <div class="input-group">
+            <input type="number" nbInput  status="info" placeholder="Seleccione año" [(ngModel)]="myBlome.Blo_Anop">
+            </div>
+          <nb-select  size="medium" placeholder="Seleccione mes">
+            <nb-option  *ngFor="let month of months" [value]="month.value" [(ngModel)]="myBlome.Blo_Mesp" >{{month.name}}</nb-option>            
+          </nb-select>  
+          <nb-select  size="medium" placeholder="Seleccione estado">
+              <nb-option  *ngFor="let estate of states" [value]="state.value" [(ngModel)]="myBlome.Blo_Acti" >{{month.name}}</nb-option>            
+            </nb-select>                             
+          <button type="submit" class="btn btn-danger" (click)="GetGnBlome()">Consultar</button>  
+          <button type="submit" class="btn btn-danger">Guardar/Actualizar</button>      
+        </form>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+        <nb-card-header>
+          Registros disponibles
+        </nb-card-header>      
+        <nb-card-body>
+          <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+         </ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+      
+  </div>
+</div>
