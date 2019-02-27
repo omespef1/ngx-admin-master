@@ -67,7 +67,7 @@ export class BlomeComponent implements OnInit {
   };
 
   ngOnInit() {
-    console.log('entra');
+    console.log('entrasdss');
   }
 
 
