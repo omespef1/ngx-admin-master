@@ -6,6 +6,8 @@ import { ButtonsModule } from './buttons/buttons.module';
 import { BlomeComponent } from './blome/blome.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import  {NbToastrModule} from '@nebular/theme';
+import { ChartsModule } from 'ng2-charts';
+
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import  {NbToastrModule} from '@nebular/theme';
     FormsRoutingModule,
     Ng2SmartTableModule,
     ButtonsModule,
+    ChartsModule,
     NbToastrModule.forRoot(),
+    
     
   ],
   declarations: [
