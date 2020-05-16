@@ -24,7 +24,8 @@ export class BlomeComponent implements OnInit {
   myBlome: Gn_blome = new Gn_blome();
   mySource: Gn_blome[]=[];
   bloqueados:number=0;
-  activos:number=0;
+  desbloqueados:number=0;
+  grafics=false;
   constructor(private service: BlomeService, private toastrService: NbToastrService) {
 
     this.months = [
@@ -44,11 +45,11 @@ export class BlomeComponent implements OnInit {
     ];
     this.states = [
       {
-        title: 'Activo',
+        title: 'Bloqueado',
         value: 'S'
       },
       {
-        title: 'Inactivo',
+        title: 'Desbloqueado',
         value: 'N'
       }]
   }
@@ -108,8 +109,8 @@ export class BlomeComponent implements OnInit {
           config: {
             selectText: 'Select',
             list: [
-              {value: 'S', title:'Activo'},
-              {value: 'N', title:'Inactivo'},             
+              {value: 'S', title:'Bloqueado'},
+              {value: 'N', title:'Desbloqueado'},             
             ],
           },
         }
@@ -122,8 +123,18 @@ export class BlomeComponent implements OnInit {
   };
 
   public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
+    scaleShowVerticalLines: true,
+    responsive: true,
+      scales : {
+    yAxes: [{
+       ticks: {
+          steps : 1,
+          stepValue : 1,
+          max : 12,
+          min:0
+        }
+    }] 
+  }
   };
 
   public barChartType:string = 'bar';
@@ -142,7 +153,9 @@ export class BlomeComponent implements OnInit {
     console.log(e);
   }
  
- 
+  showGrafics(){
+    this.grafics= !this.grafics;
+  }
 
   ngOnInit() {
     console.log('entrasdss');
@@ -160,16 +173,16 @@ export class BlomeComponent implements OnInit {
       this.loading=false;
       let chartSource: Gn_blome[] = data.ObjTransaction;
       console.log(chartSource.length);
-      this.bloqueados = chartSource.filter(b=>b.Blo_Acti=='N').length;
+      this.bloqueados = chartSource.filter(b=>b.Blo_Acti=='S').length;
       console.log(chartSource.length);
-      this.activos = chartSource.filter(b=>b.Blo_Acti=='S').length;   
-      console.log(this.activos);
+      this.desbloqueados = chartSource.filter(b=>b.Blo_Acti=='N').length;   
+      console.log(this.desbloqueados);
       console.log(this.bloqueados);
       this.barChartLabels.length = 0;
       this.barChartLabels.push(this.myBlome.Blo_Anop);     
       let newData:any[]= [
         { data:[this.bloqueados],label:'Bloqueados'},
-        {data:[this.activos],label:'Desbloqueados'}
+        {data:[this.desbloqueados],label:'Desbloqueados'}
       ];
         this.barChartData = newData;    
         this.ngOnInit(); 
